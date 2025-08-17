@@ -1,7 +1,18 @@
+import { useAppSelector } from "~/redux/hooks";
+import type { RootState } from "~/redux/store";
+
 export function Game() {
+  const { totalMoney, monthsPassed } = useAppSelector(
+    (state: RootState) => state.game,
+  );
+
   return (
-    <main className="flex items-center justify-center pt-16 pb-4">
-      Hello Game
+    <main className="w-dvw h-dvh">
+      <div className="w-full h-full flex flex-col gap-8 justify-center items-center">
+        <div>Life in Finance</div>
+        <div>Total Money: ₹ {totalMoney}</div>
+        <div>Time Passed: {monthsPassed} Months</div>
+      </div>
     </main>
   );
 }
