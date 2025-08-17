@@ -1,5 +1,11 @@
 import { useAppDispatch } from "~/redux/hooks";
 import { gameActions } from "~/redux/slices/gameSlice";
+import {
+  StageContainer,
+  StageDescriptions,
+  StageOptions,
+  StageTitle,
+} from "./stage-template";
 
 interface Stage6Props {
   next: () => void;
@@ -14,33 +20,27 @@ export const Stage6: React.FC<Stage6Props> = ({ next }) => {
   };
 
   return (
-    <div>
-      <h2>Event 3: Gold Rally (Month 6)</h2>
-      
-      <div className="news-headline">
-        <h3>📈 Headline:</h3>
-        <p>"Gold prices rise as global uncertainty spooks investors."</p>
-      </div>
+    <StageContainer>
+      <StageTitle>Event 3: Gold Rally (Month 6)</StageTitle>
+      <StageDescriptions>
+        {`📈 Headline: "Gold prices rise as global uncertainty spooks investors."
 
-      <p>"You have ₹5,000 sitting in your savings account."</p>
+You have ₹5,000 sitting in your savings account.
 
-      <div className="decision">
-        <h3>Decision 5: Where do you put it?</h3>
-        <div className="options">
-          <button onClick={() => handleInvestment('gold', 5500)}>
-            A. Buy Gold
-          </button>
-          <button onClick={() => handleInvestment('debt-fund', 5250)}>
-            B. Invest in Debt Mutual Fund
-          </button>
-        </div>
-      </div>
+Decision 5: Where do you put it?
 
-      <div className="outcome-info">
-        <h4>Outcome by Month 9:</h4>
-        <p><strong>Gold:</strong> ₹5,500 (+10%)</p>
-        <p><strong>Debt Mutual Fund:</strong> ₹5,250 (+5%)</p>
-      </div>
-    </div>
+Outcome by Month 9:
+Gold: ₹5,500 (+10%)
+Debt Mutual Fund: ₹5,250 (+5%)`}
+      </StageDescriptions>
+      <StageOptions>
+        <button onClick={() => handleInvestment('gold', 5500)}>
+          A. Buy Gold
+        </button>
+        <button onClick={() => handleInvestment('debt-fund', 5250)}>
+          B. Invest in Debt Mutual Fund
+        </button>
+      </StageOptions>
+    </StageContainer>
   );
 };

@@ -1,5 +1,11 @@
 import { useAppDispatch } from "~/redux/hooks";
 import { gameActions } from "~/redux/slices/gameSlice";
+import {
+  StageContainer,
+  StageDescriptions,
+  StageOptions,
+  StageTitle,
+} from "./stage-template";
 
 interface Stage4Props {
   next: () => void;
@@ -16,33 +22,26 @@ export const Stage4: React.FC<Stage4Props> = ({ next }) => {
   };
 
   return (
-    <div>
-      <h2>Event 2: RBI Hikes Repo Rate (Month 3)</h2>
-      
-      <div className="news-headline">
-        <h3>📈 Headline:</h3>
-        <p>"RBI raises repo rate to control inflation. FD rates rise, stock market dips. Debt Mutual Funds may benefit."</p>
-      </div>
+    <StageContainer>
+      <StageTitle>Event 2: RBI Hikes Repo Rate (Month 3)</StageTitle>
+      <StageDescriptions>
+        {`📈 Headline: "RBI raises repo rate to control inflation. FD rates rise, stock market dips. Debt Mutual Funds may benefit."
 
-      <div className="groww-tip">
-        <h3>💡 Groww Tip:</h3>
-        <p>When interest rates go up, debt funds may become attractive while stocks can take a hit.</p>
-      </div>
+💡 Groww Tip: When interest rates go up, debt funds may become attractive while stocks can take a hit.
 
-      <div className="decision">
-        <h3>Decision 3 (Month 3): What do you do with your current investments?</h3>
-        <div className="options">
-          <button onClick={() => handleInvestment('fd', 1.02)}>
-            A. Move funds into FDs
-          </button>
-          <button onClick={() => handleInvestment('stocks', 0.92)}>
-            B. Stay in Stocks
-          </button>
-          <button onClick={() => handleInvestment('mutual-fund', 0.96)}>
-            C. Stay in Mutual Funds
-          </button>
-        </div>
-      </div>
-    </div>
+Decision 3 (Month 3): What do you do with your current investments?`}
+      </StageDescriptions>
+      <StageOptions>
+        <button onClick={() => handleInvestment('fd', 1.02)}>
+          A. Move funds into FDs
+        </button>
+        <button onClick={() => handleInvestment('stocks', 0.92)}>
+          B. Stay in Stocks
+        </button>
+        <button onClick={() => handleInvestment('mutual-fund', 0.96)}>
+          C. Stay in Mutual Funds
+        </button>
+      </StageOptions>
+    </StageContainer>
   );
 };

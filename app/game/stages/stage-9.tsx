@@ -1,4 +1,10 @@
 import { useAppSelector } from "~/redux/hooks";
+import {
+  StageContainer,
+  StageDescriptions,
+  StageOptions,
+  StageTitle,
+} from "./stage-template";
 
 interface Stage9Props {
   next: () => void;
@@ -8,41 +14,29 @@ export const Stage9: React.FC<Stage9Props> = ({ next }) => {
   const money = useAppSelector((state) => state.game.money);
 
   return (
-    <div>
-      <h2>Month 12 – End of Simulation</h2>
-      
-      <p>"Here's how your portfolio looks after one year of working and investing."</p>
+    <StageContainer>
+      <StageTitle>Month 12 – End of Simulation</StageTitle>
+      <StageDescriptions>
+        {`Here's how your portfolio looks after one year of working and investing.
 
-      <div className="results-screen">
-        <h3>Results Summary</h3>
-        
-        <div className="your-path">
-          <h4>Your Path (based on decisions)</h4>
-          <p>Final Amount: ₹{money?.toLocaleString() || '0'}</p>
-        </div>
+Results Summary
 
-        <div className="benchmarks">
-          <h4>Comparison Benchmarks:</h4>
-          <div className="benchmark-item">
-            <strong>FD-only Saver:</strong> Safe but slow growth
-          </div>
-          <div className="benchmark-item">
-            <strong>MF SIP Investor:</strong> Steady growth, low effort
-          </div>
-          <div className="benchmark-item">
-            <strong>Credit Card Spender:</strong> Shows cost of debt
-          </div>
-        </div>
-      </div>
+Your Path (based on decisions)
+Final Amount: ₹${money?.toLocaleString() || '0'}
 
-      <div className="groww-tip">
-        <h3>💡 Final Groww Tip:</h3>
-        <p>
-          In your first job, it's tempting to spend. But the earlier you start investing in Mutual Funds, 
-          the more you benefit from compounding. Use credit wisely, keep an emergency fund, and balance 
-          between growth (Stocks, Mutual Funds) and safety (FDs, Gold).
-        </p>
-      </div>
-    </div>
+Comparison Benchmarks:
+FD-only Saver: Safe but slow growth
+MF SIP Investor: Steady growth, low effort
+Credit Card Spender: Shows cost of debt
+
+💡 Final Groww Tip:
+In your first job, it's tempting to spend. But the earlier you start investing in Mutual Funds, the more you benefit from compounding. Use credit wisely, keep an emergency fund, and balance between growth (Stocks, Mutual Funds) and safety (FDs, Gold).`}
+      </StageDescriptions>
+      <StageOptions>
+        <button onClick={next}>
+          Continue
+        </button>
+      </StageOptions>
+    </StageContainer>
   );
 };

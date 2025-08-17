@@ -1,5 +1,11 @@
 import { useAppDispatch } from "~/redux/hooks";
 import { gameActions } from "~/redux/slices/gameSlice";
+import {
+  StageContainer,
+  StageDescriptions,
+  StageOptions,
+  StageTitle,
+} from "./stage-template";
 
 interface Stage3Props {
   next: () => void;
@@ -14,22 +20,21 @@ export const Stage3: React.FC<Stage3Props> = ({ next }) => {
   };
 
   return (
-    <div>
-      <h2>Month 2 – Grandma's Gift</h2>
-      
-      <p>"You receive a joining bonus of ₹5,000."</p>
+    <StageContainer>
+      <StageTitle>Month 2 – Grandma's Gift</StageTitle>
+      <StageDescriptions>
+        {`You receive a joining bonus of ₹5,000.
 
-      <div className="decision">
-        <h3>Decision 2: Where do you put it?</h3>
-        <div className="options">
-          <button onClick={() => handleInvestment('savings', 5000)}>
-            A. Keep in Bank Savings
-          </button>
-          <button onClick={() => handleInvestment('sip', 5200)}>
-            B. Start a Mutual Fund SIP
-          </button>
-        </div>
-      </div>
-    </div>
+Decision 2: Where do you put it?`}
+      </StageDescriptions>
+      <StageOptions>
+        <button onClick={() => handleInvestment('savings', 5000)}>
+          A. Keep in Bank Savings
+        </button>
+        <button onClick={() => handleInvestment('sip', 5200)}>
+          B. Start a Mutual Fund SIP
+        </button>
+      </StageOptions>
+    </StageContainer>
   );
 };
