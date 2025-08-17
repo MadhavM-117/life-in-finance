@@ -9,6 +9,9 @@ import { Month6 } from "./month-6";
 import { Month7 } from "./month-7";
 import { Month8 } from "./month-8";
 import { MonthPlaceholder } from "./month-placeholder";
+import { useAppDispatch, useAppSelector } from "~/redux/hooks";
+import type { RootState } from "~/redux/store";
+import { gameActions } from "~/redux/slices/gameSlice";
 
 const MONTHS = [
   Month0,
@@ -27,18 +30,18 @@ const MONTHS = [
 ];
 
 export const Months = () => {
-  const [monthIndex, setMonthIndex] = useState(0);
+  const dispatch = useAppDispatch();
+  const { monthsPassed } = useAppSelector((state: RootState) => state.game);
 
   const next = useCallback(() => {
-    setMonthIndex((s: number) => {
-      if (s < MONTHS.length - 1) return s + 1;
-      return s;
-    });
-  }, [setMonthIndex]);
+    setTimeout(() => {
+      dispatch(gameActions.processMonthlyCalculations());
+    }, 750);
+  }, []);
 
   const Month = useMemo(() => {
-    return MONTHS[monthIndex];
-  }, [monthIndex]);
+    return MONTHS[monthsPassed];
+  }, [monthsPassed]);
 
   return <Month next={next} />;
 };

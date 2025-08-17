@@ -20,9 +20,8 @@ export const Month0: React.FC<{ next: () => void }> = ({ next }) => {
       <MonthOptions>
         <button
           onClick={() => {
-            dispatch(gameActions.setMoney(50000));
+            dispatch(gameActions.changeSavings(50000));
             next();
-            console.log("month 0 complete");
           }}
         >
           Put Salary in Bank
