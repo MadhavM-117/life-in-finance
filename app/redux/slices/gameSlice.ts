@@ -59,6 +59,9 @@ export const gameSlice = createSlice({
       state.stockMarket = Math.round(newBalances.stockMarket * 100) / 100;
       state.monthsPassed += 1;
     },
+    reset: () => {
+      return initialState;
+    },
   },
 });
 

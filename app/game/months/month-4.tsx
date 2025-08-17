@@ -1,4 +1,4 @@
-import { useAppDispatch } from "~/redux/hooks";
+import { useAppDispatch, useAppSelector } from "~/redux/hooks";
 import { gameActions } from "~/redux/slices/gameSlice";
 import {
   MonthContainer,
@@ -6,45 +6,60 @@ import {
   MonthOptions,
   MonthTitle,
 } from "./month-template";
+import type { RootState } from "~/redux/store";
 
 interface Month4Props {
   next: () => void;
 }
 
-export const Month4: React.FC<Month4Props> = ({ next }) => {
-  const dispatch = useAppDispatch();
+const PHONE_COST = 8000;
 
-  const handleCreditDecision = (choice: string, cost: number) => {
-    // For credit card EMI, we'll deduct the total cost from savings
-    if (choice === 'credit-card') {
-      dispatch(gameActions.updateMoney(-cost));
-    }
-    // If choice is 'no-credit', no change to money (cost = 0)
-    next();
-  };
+export const Month4: React.FC<Month4Props> = ({ next }) => {
+  const { savings, stockMarket, fixedDeposit, mutualFunds } = useAppSelector(
+    (state: RootState) => state.game,
+  );
+  const dispatch = useAppDispatch();
 
   return (
     <MonthContainer>
-      <MonthTitle>Month 4 – First Credit Card Offer</MonthTitle>
+      <MonthTitle>Month 4 – A new phone!</MonthTitle>
       <MonthDescriptions>
-        {`Your bank offers you a shiny new credit card with a ₹50,000 limit. You're tempted to use it for shopping.
+        {`You're buying a new phone worth ₹8,000. 
 
-💡 Groww Tip: Credit cards help build credit history but must be used responsibly.
-
-Decision 4: Do you sign up and use it?
-
-Outcome by Month 12:
-If A: Monthly EMI of ~₹2,300 reduces savings, total cost ends up at ~₹27,500
-If B: No extra expense`}
+How do you want to purchase it?`}
       </MonthDescriptions>
       <MonthOptions>
-        <button onClick={() => handleCreditDecision('credit-card', 27500)}>
-          A. Yes, buy a new phone (₹25,000 EMI, 12 months, 14% interest)
+        <button
+          onClick={() => {
+            dispatch(gameActions.changeSavings(savings - PHONE_COST));
+            next();
+          }}
+        >
+          A. Purchase with your savings
         </button>
-        <button onClick={() => handleCreditDecision('no-credit', 0)}>
-          B. No, continue managing with savings
+        <button
+          onClick={() => {
+            // assuming that initial investment (month-1) > Phone cost, and gift < Phone cost.
+            if (fixedDeposit > PHONE_COST)
+              dispatch(
+                gameActions.changeFixedDeposit(fixedDeposit - PHONE_COST),
+              );
+            else if (mutualFunds > PHONE_COST)
+              dispatch(gameActions.changeMutualFunds(mutualFunds - PHONE_COST));
+            else if (stockMarket > PHONE_COST)
+              dispatch(
+                gameActions.changeStockMarketInvestment(
+                  stockMarket - PHONE_COST,
+                ),
+              );
+
+            next();
+          }}
+        >
+          B. Re-distribute from investments
         </button>
       </MonthOptions>
     </MonthContainer>
   );
 };
+

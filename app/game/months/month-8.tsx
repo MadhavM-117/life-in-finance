@@ -1,17 +1,21 @@
-import { useAppSelector } from "~/redux/hooks";
+import { useAppDispatch, useAppSelector } from "~/redux/hooks";
 import {
   MonthContainer,
   MonthDescriptions,
   MonthOptions,
   MonthTitle,
 } from "./month-template";
+import { gameActions } from "~/redux/slices/gameSlice";
 
 interface Month8Props {
   next: () => void;
 }
 
 export const Month8: React.FC<Month8Props> = ({ next }) => {
-  const money = useAppSelector((state) => state.game.money);
+  const { savings, fixedDeposit, stockMarket, mutualFunds } = useAppSelector(
+    (state) => state.game,
+  );
+  const dispatch = useAppDispatch();
 
   return (
     <MonthContainer>
@@ -22,7 +26,7 @@ export const Month8: React.FC<Month8Props> = ({ next }) => {
 Results Summary
 
 Your Path (based on decisions)
-Final Amount: ₹${money?.toLocaleString() || '0'}
+Final Amount: ₹${(savings + fixedDeposit + stockMarket + mutualFunds)?.toLocaleString() || "0"}
 
 Comparison Benchmarks:
 FD-only Saver: Safe but slow growth
@@ -33,9 +37,7 @@ Credit Card Spender: Shows cost of debt
 In your first job, it's tempting to spend. But the earlier you start investing in Mutual Funds, the more you benefit from compounding. Use credit wisely, keep an emergency fund, and balance between growth (Stocks, Mutual Funds) and safety (FDs, Gold).`}
       </MonthDescriptions>
       <MonthOptions>
-        <button onClick={next}>
-          Continue
-        </button>
+        <button onClick={() => dispatch(gameActions.reset())}>Restart</button>
       </MonthOptions>
     </MonthContainer>
   );

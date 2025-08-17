@@ -1,4 +1,4 @@
-import { useAppDispatch } from "~/redux/hooks";
+import { useAppDispatch, useAppSelector } from "~/redux/hooks";
 import { gameActions } from "~/redux/slices/gameSlice";
 import {
   MonthContainer,
@@ -6,19 +6,19 @@ import {
   MonthOptions,
   MonthTitle,
 } from "./month-template";
+import type { RootState } from "~/redux/store";
 
 interface Month7Props {
   next: () => void;
 }
 
-export const Month7: React.FC<Month7Props> = ({ next }) => {
-  const dispatch = useAppDispatch();
+const EXPENSE_AMOUNT = 10_000;
 
-  const handleEmergencyDecision = (choice: string, cost: number) => {
-    // Deduct the cost from current money
-    dispatch(gameActions.updateMoney(-cost));
-    next();
-  };
+export const Month7: React.FC<Month7Props> = ({ next }) => {
+  const { savings, fixedDeposit, mutualFunds, stockMarket } = useAppSelector(
+    (state: RootState) => state.game,
+  );
+  const dispatch = useAppDispatch();
 
   return (
     <MonthContainer>
@@ -27,23 +27,42 @@ export const Month7: React.FC<Month7Props> = ({ next }) => {
         {`Your bike breaks down. You need ₹10,000 for repairs.
 
 Decision 7: How do you arrange it?
-
-Outcome:
-A: No penalty, but savings drop
-B: Exit load reduces MF redemption value (₹10,000 → ₹9,900)
-C: Immediate fix, but repayment with interest later`}
+`}
       </MonthDescriptions>
       <MonthOptions>
-        <button onClick={() => handleEmergencyDecision('savings', 10000)}>
-          A. Withdraw from Bank Savings
+        <button
+          onClick={() => {
+            dispatch(gameActions.changeSavings(savings - EXPENSE_AMOUNT));
+            next();
+          }}
+        >
+          A. Purchase with your savings
         </button>
-        <button onClick={() => handleEmergencyDecision('mutual-fund', 10100)}>
-          B. Redeem Mutual Fund units (1% exit load)
-        </button>
-        <button onClick={() => handleEmergencyDecision('credit-card', 11400)}>
-          C. Use Credit Card
+        <button
+          onClick={() => {
+            // assuming that initial investment (month-1) > Phone cost, and gift < Phone cost.
+            if (fixedDeposit > EXPENSE_AMOUNT)
+              dispatch(
+                gameActions.changeFixedDeposit(fixedDeposit - EXPENSE_AMOUNT),
+              );
+            else if (mutualFunds > EXPENSE_AMOUNT)
+              dispatch(
+                gameActions.changeMutualFunds(mutualFunds - EXPENSE_AMOUNT),
+              );
+            else if (stockMarket > EXPENSE_AMOUNT)
+              dispatch(
+                gameActions.changeStockMarketInvestment(
+                  stockMarket - EXPENSE_AMOUNT,
+                ),
+              );
+
+            next();
+          }}
+        >
+          B. Re-distribute from investments
         </button>
       </MonthOptions>
     </MonthContainer>
   );
 };
+
