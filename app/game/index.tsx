@@ -1,5 +1,6 @@
 import { useAppSelector } from "~/redux/hooks";
 import type { RootState } from "~/redux/store";
+import { Stages } from "./stages";
 
 export function Game() {
   const { totalMoney, monthsPassed } = useAppSelector(
@@ -12,6 +13,7 @@ export function Game() {
         <div>Life in Finance</div>
         <div>Total Money: ₹ {totalMoney}</div>
         <div>Time Passed: {monthsPassed} Months</div>
+        <Stages />
       </div>
     </main>
   );
