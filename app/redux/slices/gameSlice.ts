@@ -1,6 +1,6 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 
-interface GameState {
+export interface GameState {
   savings: number;
   fixedDeposit: number;
   mutualFunds: number;
