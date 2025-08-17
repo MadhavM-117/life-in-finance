@@ -8,21 +8,36 @@ import { Stage6 } from "./stage-6";
 import { Stage7 } from "./stage-7";
 import { Stage8 } from "./stage-8";
 import { Stage9 } from "./stage-9";
+import { StagePlaceholder } from "./stage-placeholder";
 
-const STAGES = [Stage1, Stage2, Stage3, Stage4, Stage5, Stage6, Stage7, Stage8, Stage9];
+const MONTHS = [
+  Stage1,
+  Stage2,
+  Stage3,
+  Stage4,
+  Stage5,
+  StagePlaceholder,
+  Stage6,
+  StagePlaceholder,
+  Stage7,
+  StagePlaceholder,
+  Stage8,
+  StagePlaceholder,
+  Stage9,
+];
 
 export const Stages = () => {
   const [stageIndex, setStageIndex] = useState(0);
 
   const next = useCallback(() => {
     setStageIndex((s: number) => {
-      if (s < STAGES.length - 1) return s + 1;
+      if (s < MONTHS.length - 1) return s + 1;
       return s;
     });
   }, [setStageIndex]);
 
   const Stage = useMemo(() => {
-    return STAGES[stageIndex];
+    return MONTHS[stageIndex];
   }, [stageIndex]);
 
   return <Stage next={next} />;
