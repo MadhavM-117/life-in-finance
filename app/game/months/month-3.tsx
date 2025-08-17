@@ -1,17 +1,17 @@
 import { useAppDispatch } from "~/redux/hooks";
 import { gameActions } from "~/redux/slices/gameSlice";
 import {
-  StageContainer,
-  StageDescriptions,
-  StageOptions,
-  StageTitle,
-} from "./stage-template";
+  MonthContainer,
+  MonthDescriptions,
+  MonthOptions,
+  MonthTitle,
+} from "./month-template";
 
-interface Stage4Props {
+interface Month3Props {
   next: () => void;
 }
 
-export const Stage4: React.FC<Stage4Props> = ({ next }) => {
+export const Month3: React.FC<Month3Props> = ({ next }) => {
   const dispatch = useAppDispatch();
 
   const handleInvestment = (choice: string, multiplier: number) => {
@@ -22,16 +22,16 @@ export const Stage4: React.FC<Stage4Props> = ({ next }) => {
   };
 
   return (
-    <StageContainer>
-      <StageTitle>Event 2: RBI Hikes Repo Rate (Month 3)</StageTitle>
-      <StageDescriptions>
+    <MonthContainer>
+      <MonthTitle>Event 2: RBI Hikes Repo Rate (Month 3)</MonthTitle>
+      <MonthDescriptions>
         {`📈 Headline: "RBI raises repo rate to control inflation. FD rates rise, stock market dips. Debt Mutual Funds may benefit."
 
 💡 Groww Tip: When interest rates go up, debt funds may become attractive while stocks can take a hit.
 
 Decision 3 (Month 3): What do you do with your current investments?`}
-      </StageDescriptions>
-      <StageOptions>
+      </MonthDescriptions>
+      <MonthOptions>
         <button onClick={() => handleInvestment('fd', 1.02)}>
           A. Move funds into FDs
         </button>
@@ -41,7 +41,7 @@ Decision 3 (Month 3): What do you do with your current investments?`}
         <button onClick={() => handleInvestment('mutual-fund', 0.96)}>
           C. Stay in Mutual Funds
         </button>
-      </StageOptions>
-    </StageContainer>
+      </MonthOptions>
+    </MonthContainer>
   );
 };

@@ -4,67 +4,38 @@ export interface MonthlyRates {
   savings: number;
   fixedDeposit: number;
   mutualFunds: number;
-  creditCardDebt: number;
-}
-
-export interface MonthlyEvent {
-  month: number;
-  type: keyof MonthlyRates;
-  rateChange: number;
-  description: string;
+  stockMarket: number;
 }
 
 const BASE_RATES: MonthlyRates = {
-  savings: 0.002, // 0.2% monthly (2.4% annual)
+  savings: 0.0,
   fixedDeposit: 0.004, // 0.4% monthly (4.8% annual)
   mutualFunds: 0.008, // 0.8% monthly (10% annual average, but volatile)
-  creditCardDebt: 0.015, // 1.5% monthly (18% annual interest charge - debt grows)
+  stockMarket: 0.01, // 1% Monthly (12% annual leverage, but volatile)
 };
 
-const MONTHLY_EVENTS: MonthlyEvent[] = [
-  {
-    month: 3,
-    type: "mutualFunds",
-    rateChange: -0.012,
-    description: "Market correction affects mutual funds",
-  },
-  {
-    month: 5,
-    type: "savings",
-    rateChange: 0.001,
-    description: "Bank raises savings rates",
-  },
-  {
-    month: 7,
-    type: "mutualFunds",
-    rateChange: 0.015,
-    description: "Bull market surge",
-  },
-  {
-    month: 11,
-    type: "fixedDeposit",
-    rateChange: 0.002,
-    description: "Interest rate hike benefits fixed deposits",
-  },
-];
+const HIKED_REPO_RATE = {
+  ...BASE_RATES,
+  fixedDeposit: 0.0055, // 0.55% monthly (6.8% annual)
+  mutualFunds: -0.0133, // -4% over the 3 month period
+  stockMarket: -0.0266, // -8% over the 3 month period
+};
+
+const RATE_OVERRIDE: Record<number, MonthlyRates> = {
+  3: HIKED_REPO_RATE,
+  4: HIKED_REPO_RATE,
+  5: HIKED_REPO_RATE,
+};
 
 function getCurrentRates(monthsPassed: number): MonthlyRates {
-  const rates = { ...BASE_RATES };
-
-  MONTHLY_EVENTS.forEach((event) => {
-    if (monthsPassed >= event.month) {
-      rates[event.type] += event.rateChange;
-    }
-  });
-
-  return rates;
+  return RATE_OVERRIDE[monthsPassed] || BASE_RATES;
 }
 
 export const getNextMonthNumbers = (
   state: GameState,
 ): Pick<
   GameState,
-  "savings" | "fixedDeposit" | "mutualFunds" | "creditCardDebt"
+  "savings" | "fixedDeposit" | "mutualFunds" | "stockMarket"
 > => {
   const rates = getCurrentRates(state.monthsPassed);
 
@@ -72,16 +43,6 @@ export const getNextMonthNumbers = (
     savings: state.savings * (1 + rates.savings),
     fixedDeposit: state.fixedDeposit * (1 + rates.fixedDeposit),
     mutualFunds: state.mutualFunds * (1 + rates.mutualFunds),
-    creditCardDebt: state.creditCardDebt * (1 + rates.creditCardDebt),
+    stockMarket: state.stockMarket * (1 + rates.stockMarket),
   };
-};
-
-export const getActiveEventsForMonth = (
-  monthsPassed: number,
-): MonthlyEvent[] => {
-  return MONTHLY_EVENTS.filter((event) => event.month === monthsPassed);
-};
-
-export const getCurrentMonthlyRates = (monthsPassed: number): MonthlyRates => {
-  return getCurrentRates(monthsPassed);
 };

@@ -1,22 +1,22 @@
 import { useAppSelector } from "~/redux/hooks";
 import {
-  StageContainer,
-  StageDescriptions,
-  StageOptions,
-  StageTitle,
-} from "./stage-template";
+  MonthContainer,
+  MonthDescriptions,
+  MonthOptions,
+  MonthTitle,
+} from "./month-template";
 
-interface Stage9Props {
+interface Month8Props {
   next: () => void;
 }
 
-export const Stage9: React.FC<Stage9Props> = ({ next }) => {
+export const Month8: React.FC<Month8Props> = ({ next }) => {
   const money = useAppSelector((state) => state.game.money);
 
   return (
-    <StageContainer>
-      <StageTitle>Month 12 – End of Simulation</StageTitle>
-      <StageDescriptions>
+    <MonthContainer>
+      <MonthTitle>Month 12 – End of Simulation</MonthTitle>
+      <MonthDescriptions>
         {`Here's how your portfolio looks after one year of working and investing.
 
 Results Summary
@@ -31,12 +31,12 @@ Credit Card Spender: Shows cost of debt
 
 💡 Final Groww Tip:
 In your first job, it's tempting to spend. But the earlier you start investing in Mutual Funds, the more you benefit from compounding. Use credit wisely, keep an emergency fund, and balance between growth (Stocks, Mutual Funds) and safety (FDs, Gold).`}
-      </StageDescriptions>
-      <StageOptions>
+      </MonthDescriptions>
+      <MonthOptions>
         <button onClick={next}>
           Continue
         </button>
-      </StageOptions>
-    </StageContainer>
+      </MonthOptions>
+    </MonthContainer>
   );
 };

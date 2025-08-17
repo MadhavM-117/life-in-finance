@@ -1,17 +1,17 @@
 import { useAppDispatch } from "~/redux/hooks";
 import { gameActions } from "~/redux/slices/gameSlice";
 import {
-  StageContainer,
-  StageDescriptions,
-  StageOptions,
-  StageTitle,
-} from "./stage-template";
+  MonthContainer,
+  MonthDescriptions,
+  MonthOptions,
+  MonthTitle,
+} from "./month-template";
 
-interface Stage8Props {
+interface Month7Props {
   next: () => void;
 }
 
-export const Stage8: React.FC<Stage8Props> = ({ next }) => {
+export const Month7: React.FC<Month7Props> = ({ next }) => {
   const dispatch = useAppDispatch();
 
   const handleEmergencyDecision = (choice: string, cost: number) => {
@@ -21,9 +21,9 @@ export const Stage8: React.FC<Stage8Props> = ({ next }) => {
   };
 
   return (
-    <StageContainer>
-      <StageTitle>Month 10 – Emergency Expense</StageTitle>
-      <StageDescriptions>
+    <MonthContainer>
+      <MonthTitle>Month 10 – Emergency Expense</MonthTitle>
+      <MonthDescriptions>
         {`Your bike breaks down. You need ₹10,000 for repairs.
 
 Decision 7: How do you arrange it?
@@ -32,8 +32,8 @@ Outcome:
 A: No penalty, but savings drop
 B: Exit load reduces MF redemption value (₹10,000 → ₹9,900)
 C: Immediate fix, but repayment with interest later`}
-      </StageDescriptions>
-      <StageOptions>
+      </MonthDescriptions>
+      <MonthOptions>
         <button onClick={() => handleEmergencyDecision('savings', 10000)}>
           A. Withdraw from Bank Savings
         </button>
@@ -43,7 +43,7 @@ C: Immediate fix, but repayment with interest later`}
         <button onClick={() => handleEmergencyDecision('credit-card', 11400)}>
           C. Use Credit Card
         </button>
-      </StageOptions>
-    </StageContainer>
+      </MonthOptions>
+    </MonthContainer>
   );
 };
